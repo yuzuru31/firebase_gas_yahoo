@@ -1,0 +1,27 @@
+function myFunction() {
+  var url = 'https://www.yahoo.co.jp/';
+  var response = UrlFetchApp.fetch(url);
+  var html = response.getContentText('UTF-8');
+
+  
+  var options = {
+    "headers": {
+      "Content-Type": "application/json",
+      Authorization: 'Bearer abc'
+    },
+    "method": "post",
+    "payload": JSON.stringify({
+      source: html
+    })
+  };
+  
+  var res = UrlFetchApp.fetch("https://asia-northeast1-fir-69c26.cloudfunctions.net/api/v1/yahoo", options);
+  var obj = JSON.parse(res.getContentText());
+  var list = obj.list;
+
+  for (var i = 0; i < list.length; i++) {
+    Logger.log(list[i]['title']);
+    Logger.log(list[i]['url']);
+    Logger.log('\n');
+  }
+}

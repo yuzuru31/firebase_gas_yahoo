@@ -1,2 +1,5 @@
-# firebase_gas_yahoo
-firebaseとgasを使ってスクレイピング
+# firebaseとgasを使ってスクレイピング
+
+```
+export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/xxxx-firebase-adminsdk-xxxx.json"
+```
