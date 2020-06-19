@@ -1,4 +1,28 @@
-function myFunction() {
+function getFileName() {
+  var dt = new Date();
+  return "" + dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate() + "-" + dt.getHours()  + "-" + dt.getMinutes()  + "-" + dt.getSeconds();
+}
+
+// スプレッドシートに書き込む
+function createSpreadsheet(list) {
+  const id = SpreadsheetApp.create(getFileName()).getId();
+  var ssNewFile = SpreadsheetApp.openById(id);//オープン
+  var activeSpreadsheet = SpreadsheetApp.setActiveSpreadsheet(ssNewFile);//アクティブシートに設定，操作が有効なシート
+  var masterSheet  = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];//アクティブシートをゲットする
+  
+  for (var i = 0; i < list.length; i++) {
+    setValue(masterSheet, i + 1, 1, list[i]['title']);
+    setValue(masterSheet, i + 1, 2, list[i]['url']);
+  }
+}
+
+// row行のcal列にデータをセットする関数
+function setValue(sheet,row,col,value){
+  var cell = sheet.getRange(row,col);
+  cell.setValue(value);
+}
+
+function main() {
   var url = 'https://www.yahoo.co.jp/';
   var response = UrlFetchApp.fetch(url);
   var html = response.getContentText('UTF-8');
@@ -19,9 +43,5 @@ function myFunction() {
   var obj = JSON.parse(res.getContentText());
   var list = obj.list;
 
-  for (var i = 0; i < list.length; i++) {
-    Logger.log(list[i]['title']);
-    Logger.log(list[i]['url']);
-    Logger.log('\n');
-  }
+  createSpreadsheet(list);
 }
