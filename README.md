@@ -1,0 +1,2 @@
+# firebase_gas_yahoo
+firebaseとgasを使ってスクレイピング
